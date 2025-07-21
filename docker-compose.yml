@@ -1,6 +1,8 @@
 services:
   app1:
-    build: ./backend
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
     ports:
       - "3001:3000"
     environment:
@@ -12,11 +14,11 @@ services:
     depends_on:
       db:
         condition: service_healthy
-    # Usar tu script de espera
-    command: ["sh", "./wait-for-db.sh"]
 
   app2:
-    build: ./backend
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
     ports:
       - "3002:3000"
     environment:
@@ -28,8 +30,6 @@ services:
     depends_on:
       db:
         condition: service_healthy
-    # Usar tu script de espera
-    command: ["sh", "./wait-for-db.sh"]
 
   db:
     image: mysql:8
@@ -39,7 +39,6 @@ services:
       MYSQL_DATABASE: webapp
     volumes:
       - dbdata:/var/lib/mysql
-    # Healthcheck para saber cuándo MySQL está realmente listo
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-padmin"]
       timeout: 20s

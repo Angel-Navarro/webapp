@@ -7,3 +7,5 @@ RUN apt-get update && apt-get install -y netcat-openbsd && rm -rf /var/lib/apt/l
 COPY . .
 RUN chmod +x wait-for-db.sh
 CMD ["sh", "-c", "./wait-for-db.sh && npm start"]
+
+# backend/Dockerfile
